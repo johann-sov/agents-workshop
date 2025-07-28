@@ -1,0 +1,102 @@
+{
+  "openapi": "3.1.0",
+  "servers": {"url": "agents-workshop-backend.cfapps.eu10-004.hana.ondemand.com"},
+  "info": {
+    "title": "FastAPI",
+    "description": "FastAPI",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Root",
+        "operationId": "root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
+      }
+    },
+    "/businessPartners": {
+      "get": {
+        "summary": "Business Partners",
+        "operationId": "business_partners_businessPartners_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/BusinessPartner"
+                  },
+                  "type": "array",
+                  "title": "Response Business Partners Businesspartners Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BusinessPartner": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "paymentIsBlocked": {
+            "type": "boolean",
+            "title": "Paymentisblocked",
+            "default": false
+          },
+          "postingIsBlocked": {
+            "type": "boolean",
+            "title": "Postingisblocked",
+            "default": false
+          },
+          "purchasingIsBlocked": {
+            "type": "boolean",
+            "title": "Purchasingisblocked",
+            "default": false
+          },
+          "address": {
+            "type": "string",
+            "title": "Address"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "address"
+        ],
+        "title": "BusinessPartner"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBasic": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  }
+}
