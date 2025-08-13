@@ -1,0 +1,294 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "FastAPI",
+        "version": "0.1.0"
+    },
+    "paths": {
+        "/": {
+            "get": {
+                "summary": "Root",
+                "operationId": "root__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "HTTPBasic": []
+                    }
+                ]
+            }
+        },
+        "/travelTicket": {
+            "get": {
+                "summary": "Get Ticket",
+                "operationId": "get_ticket_travelTicket_get",
+                "security": [
+                    {
+                        "HTTPBasic": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "ticketID",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "title": "Ticketid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TravelTicket"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Modify Ticket",
+                "operationId": "modify_ticket_travelTicket_put",
+                "security": [
+                    {
+                        "HTTPBasic": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TravelTicket"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TravelTicket"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/allowances": {
+            "get": {
+                "summary": "Get Mie Allowances",
+                "operationId": "get_mie_allowances_allowances_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "additionalProperties": {
+                                        "type": "integer"
+                                    },
+                                    "type": "object",
+                                    "title": "Response Get Mie Allowances Allowances Get"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "HTTPBasic": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
+            },
+            "Invoice": {
+                "properties": {
+                    "invoiceID": {
+                        "type": "integer",
+                        "title": "Invoiceid"
+                    },
+                    "amount": {
+                        "type": "number",
+                        "title": "Amount"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Description"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "invoiceID",
+                    "amount",
+                    "description"
+                ],
+                "title": "Invoice"
+            },
+            "TicketStatus": {
+                "type": "string",
+                "enum": [
+                    "PENDING",
+                    "APPROVED",
+                    "REJECTED"
+                ],
+                "title": "TicketStatus"
+            },
+            "TravelTicket": {
+                "properties": {
+                    "ticketID": {
+                        "type": "integer",
+                        "title": "Ticketid"
+                    },
+                    "ticketStatus": {
+                        "$ref": "#/components/schemas/TicketStatus"
+                    },
+                    "comment": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Comment"
+                    },
+                    "beginDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Begindate"
+                    },
+                    "endDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Enddate"
+                    },
+                    "travelDestination": {
+                        "type": "string",
+                        "title": "Traveldestination"
+                    },
+                    "dailyMIEAllowance": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Dailymieallowance"
+                    },
+                    "invoices": {
+                        "items": {
+                            "$ref": "#/components/schemas/Invoice"
+                        },
+                        "type": "array",
+                        "title": "Invoices"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "ticketID",
+                    "ticketStatus",
+                    "beginDate",
+                    "endDate",
+                    "travelDestination",
+                    "invoices"
+                ],
+                "title": "TravelTicket"
+            },
+            "ValidationError": {
+                "properties": {
+                    "loc": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Location"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Error Type"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "title": "ValidationError"
+            }
+        },
+        "securitySchemes": {
+            "HTTPBasic": {
+                "type": "http",
+                "scheme": "basic"
+            }
+        }
+    }
+}
